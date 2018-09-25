@@ -21,6 +21,7 @@ def initialize(request):
     temp_dic = dict()
     data_list = list()
     item_dic = dict()
+    index = 0
 
     for index in range(len(test_data)):
         if test_data[index][2] not in data_dic.keys():
@@ -41,6 +42,15 @@ def initialize(request):
         temp_dic.clear()
 
     for i in range(len(data_list)):
+        if data_list[i]['name'][2] == '0':
+            index = i
+
+    for data in data_list:
+        data['name'] = data['name'][0] + "(" + data['name'][3] + ")"
+        for children in data['children']:
+            children['name'] = children['name'][0] + "(" + children['name'][3] + ")"
+
+    for i in range(len(data_list)):
         data_name = data_list[i]['name']
         for j in range(len(data_list)):
             data_children = data_list[j]['children']
@@ -48,11 +58,9 @@ def initialize(request):
                 if data_name == data_children[k]['name']:
                     data_list[j]['children'][k] = data_list[i]
 
-    for data in data_list:
-        if data['name'][2] == '0':
-            return_data = data
-
+    return_data = data_list[index]
     print(return_data)
+
 
 
 initialize('123')
