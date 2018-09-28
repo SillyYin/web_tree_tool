@@ -2,12 +2,15 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+import os, stat, sys
+import tool.cloudPlatformApi
+import importlib
 
 # Create your views here.
 
-test_data = [['他', '代词', '3', '定中关系'], ['的', '助词', '1', '右附加关系'], ['精神', '名词', '4', '主谓关系'],
-             ['值得', '动词', '0', '核心关系'], ['我们', '代词', '7', '主谓关系'], ['好好', '副词', '7', '状中结构'],
-             ['学习', '动词', '4', '动宾关系']]
+test_data = [['我', '代词', '3', '主谓关系'], ['很', '副词', '3', '状中结构'], ['喜欢', '动词', '0', '核心关系'], ['你', '代词', '5', '定中关系'],
+             ['，', '标点', '3', '标点'], ['不', '副词', '7', '状中结构'], ['知道', '动词', '3', '并列关系'], ['你', '代词', '9', '主谓关系'],
+             ['喜不喜欢', '动词', '7', '动宾关系'], ['我', '代词', '9', '动宾关系'], ['呢', '助词', '10', '右附加关系']]
 
 
 @csrf_exempt
@@ -59,8 +62,5 @@ def initialize(request):
                     data_list[j]['children'][k] = data_list[i]
 
     return_data = data_list[index]
-    print(return_data)
-
-
-
-initialize('123')
+    data = {'status': 'SUCCESS', 'data': return_data}
+    return HttpResponse(json.dumps(data))
